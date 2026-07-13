@@ -1,3 +1,4 @@
+
 # 🩸 LifeLink — Emergency Blood Donor Finder
 
 A full-stack web application that connects patients in urgent need of blood
@@ -163,3 +164,6 @@ in the UI — so it can't be bypassed by calling the API directly.
   individual donors.
 - Authentication + donor verification (Aadhaar/health ID) for trust and safety.
 - A map view (Leaflet/Google Maps) plotting donor pins around the request location.
+=======
+# -LifeLink-Emergency-Blood-Donor-Finder
+>>>>>>> fa8b61932db5a5831f0fde4bebe310c5eada79ed
