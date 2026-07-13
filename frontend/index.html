@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LifeLink — Emergency Blood Donor Finder</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-block">
+        <div class="brand">
+          <span class="drop"></span>
+          <span class="brand-name">LifeLink</span>
+        </div>
+        <p class="tagline">Find a compatible blood donor near you — in seconds.</p>
+      </div>
+
+      <!-- SHARE BLOCK — top of the page, so inviting others is the first thing visible -->
+      <div class="share-block">
+        <p class="share-label">📣 Invite others to register</p>
+        <div class="share-link-row">
+          <input type="text" id="shareLinkInput" readonly />
+          <button type="button" id="copyLinkBtn" class="ghost-btn">Copy</button>
+        </div>
+        <p id="copyMsg" class="copy-msg"></p>
+
+        <div class="share-icons">
+          <button type="button" id="nativeShareBtn" class="share-icon-btn native">📤 Share…</button>
+          <a id="shareWhatsapp" class="share-icon-btn whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+          <a id="shareTelegram" class="share-icon-btn telegram" target="_blank" rel="noopener">Telegram</a>
+          <a id="shareEmail" class="share-icon-btn email">Email</a>
+          <a id="shareSms" class="share-icon-btn sms">SMS</a>
+          <a id="shareTwitter" class="share-icon-btn twitter" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <!-- EMERGENCY SEARCH PANEL -->
+    <section class="panel search-panel">
+      <div class="panel-head">
+        <span class="eyebrow"> Emergency Request</span>
+        <h2>Find donors now</h2>
+        <img src="assets/blood-drop-mascot.svg" alt="" class="mascot-small" aria-hidden="true" />
+      </div>
+
+      <form id="searchForm">
+        <label>
+          Blood type needed
+          <select id="reqBloodType" required>
+            <option value="">Select type</option>
+            <option>O-</option>
+            <option>O+</option>
+            <option>A-</option>
+            <option>A+</option>
+            <option>B-</option>
+            <option>B+</option>
+            <option>AB-</option>
+            <option>AB+</option>
+          </select>
+        </label>
+
+        <label>
+          Urgency
+          <select id="reqUrgency">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+        </label>
+
+        <label>
+          Patient's area / address <span style="font-weight:400">(or use the button below)</span>
+          <input id="reqAddress" type="text" placeholder="e.g. Mūlki, Karnataka" />
+        </label>
+        <div class="loc-row">
+          <button type="button" id="useLocationBtn" class="ghost-btn">📍 Use my current location</button>
+          <span id="reqLocStatus" class="msg"></span>
+        </div>
+        <!-- Hidden fields — filled automatically by GPS or by geocoding the address, never typed manually -->
+        <input id="reqLat" type="hidden" />
+        <input id="reqLng" type="hidden" />
+
+        <label>
+          Search radius (km): <span id="radiusVal">15</span>
+          <input id="reqRadius" type="range" min="1" max="50" value="15" />
+        </label>
+
+        <button type="submit" class="primary-btn">Search for donors</button>
+      </form>
+
+      <div id="results" class="results"></div>
+    </section>
+
+    <!-- INFO SIDEBAR — fills the middle space with the doctor mascot + quotes -->
+    <aside class="info-sidebar">
+      <div class="sidebar-card">
+        <img src="assets/doctor.svg" alt="Illustration of a smiling doctor holding a blood drop"
+          class="sidebar-doctor" />
+        <div class="sidebar-quote-card">
+          <span class="quote-mark">“</span>
+          <p id="sidebarQuoteText" class="quote-text"></p>
+          <span class="quote-mark closing">”</span>
+        </div>
+        <div class="sidebar-stats">
+          <div class="stat"><strong>1</strong> donor can save up to <strong>3 lives</strong></div>
+          <div class="stat"><strong>Every 2 sec</strong> someone needs blood</div>
+          <div class="stat"><strong>56 days</strong> until you're eligible again</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- DONOR REGISTRATION PANEL -->
+    <section class="panel register-panel" id="register">
+      <div class="panel-head">
+        <span class="eyebrow"> Become a Donor</span>
+        <h2>Register</h2>
+      </div>
+
+      <!-- SHARE BLOCK moved to the page header (top) — see <header class="topbar"> -->
+
+      <form id="donorForm">
+        <label>
+          Full name
+          <input id="donorName" type="text" required />
+        </label>
+        <label>
+          Blood type
+          <select id="donorBloodType" required>
+            <option value="">Select type</option>
+            <option>O-</option>
+            <option>O+</option>
+            <option>A-</option>
+            <option>A+</option>
+            <option>B-</option>
+            <option>B+</option>
+            <option>AB-</option>
+            <option>AB+</option>
+          </select>
+        </label>
+        <label>
+          Phone
+          <input id="donorPhone" type="tel" required />
+        </label>
+        <label>
+          Your area / address <span style="font-weight:400">(or use the button below)</span>
+          <input id="donorAddress" type="text" placeholder="e.g. Mūlki, Karnataka" />
+        </label>
+        <div class="loc-row">
+          <button type="button" id="useDonorLocationBtn" class="ghost-btn">📍 Use my current location</button>
+          <span id="donorLocStatus" class="msg"></span>
+        </div>
+        <!-- Hidden fields — filled automatically by GPS or by geocoding the address, never typed manually -->
+        <input id="donorLat" type="hidden" />
+        <input id="donorLng" type="hidden" />
+        <button type="submit" class="primary-btn secondary">Register as donor</button>
+      </form>
+      <p id="registerMsg" class="msg"></p>
+
+      <div class="panel-head" style="margin-top:2rem;">
+        <span class="eyebrow">03 — Donor Pool</span>
+        <h2>All donors</h2>
+      </div>
+      <div id="donorList" class="donor-list"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p class="footer-quote">“The blood you donate gives someone another chance at life.” — World Health Organization</p>
+    <p class="footer-tech">Algorithms in use: Haversine geolocation distance · ABO/Rh compatibility graph · 90-day
+      eligibility rule · weighted urgency scoring · top-K min-heap ranking</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>
